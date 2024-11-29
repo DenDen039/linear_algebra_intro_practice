@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def negative_matrix(x: np.ndarray) -> np.ndarray:
     """
     Returns the negation of each element in the input vector or matrix.
@@ -10,7 +11,7 @@ def negative_matrix(x: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: A matrix with each element negated.
     """
-    raise NotImplementedError
+    return -x
 
 
 def reverse_matrix(x: np.ndarray) -> np.ndarray:
@@ -23,7 +24,7 @@ def reverse_matrix(x: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: A matrix with the order of elements reversed.
     """
-    raise NotImplementedError
+    return np.flip(x)
 
 
 def affine_transform(
@@ -42,4 +43,25 @@ def affine_transform(
     Returns:
         np.ndarray: transformed matrix.
     """
-    raise NotImplementedError
+    # SI conversion
+    alpha_rad = np.radians(alpha_deg)
+
+    # Get transformation matrixes
+    scale_matrix = np.array([
+        [scale[0], 0],
+        [0, scale[1]],
+    ])
+    shear_matrix = np.array([
+        [1, shear[0]],
+        [shear[1], 1],
+    ])
+    rotation_matrix = np.array([
+        [np.cos(alpha_rad), -np.sin(alpha_rad)],
+        [np.sin(alpha_rad), np.cos(alpha_rad)]
+    ])
+
+    # Combine the transformations
+    transformation_matrix = scale_matrix @ shear_matrix @ rotation_matrix
+
+    # Apply transformations
+    return transformation_matrix @ x + np.array(translate)
